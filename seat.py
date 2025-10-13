@@ -14,6 +14,22 @@ class Seat:
         self.__price = price
         self.__is_available = True
 
+    @property
+    def number(self):
+        return self.__number
+
+    @property
+    def seat_class(self):
+        return self.__seat_class
+
+    @property
+    def price(self):
+        return self.__price
+
+    @property
+    def is_avaliable(self):
+        return self.__is_available
+
     def reserve(self) -> None:
         if not self.__is_available:
             raise SeatNotAvailableException(f"Место {self.number} уже занято")

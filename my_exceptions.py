@@ -1,3 +1,10 @@
-class SeatNotAvailableException(Exception):
-    def __repr__(self):
-        return "Место недоступно"
+class MyException(Exception):
+    pass
+
+
+class SeatNotAvailableException(MyException):
+    pass
+
+
+class NoMoneyException(MyException):
+    pass
