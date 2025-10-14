@@ -104,5 +104,12 @@ class Passenger(Person):
     def passport(self) -> str:
         return self.__passport
 
+    @property
+    def bookings(self) -> List[Booking]:
+        return self.__bookings.copy()
+
+    def add_booking(self, booking: Booking) -> None:
+        self.__bookings.append(booking)
+
     def get_info(self) -> str:
         return f"Пассажир: {self.name}, Паспорт: {self.passport}"

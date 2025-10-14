@@ -1,6 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import List
 from seat import Seat
+from enum import Enum
+
+
+class TransportType(Enum):
+    BUS = "автобус"
+    TRAIN = "поезд"
+    PLANE = "самолет"
+    SHIP = "корабль"
 
 
 class Transport(ABC):
@@ -11,7 +19,7 @@ class Transport(ABC):
         self.__seats: List[Seat] = []
 
     @property
-    def transport_id(self):
+    def transport_id(self) -> str:
         return self.__transport_id
 
     @property
@@ -32,3 +40,37 @@ class Transport(ABC):
 
     def add_seat(self, seat: Seat) -> None:
         self.__seats.append(seat)
+
+
+class Bus(Transport):
+    def __init__(self, transport_id: str, model: str, capacity: int, has_wifi: bool,
+                 has_usb_charging: bool):
+        super().__init__(transport_id, model, capacity)
+        self.__has_wifi = has_wifi
+        self.__has_usb_charging = has_usb_charging
+
+    @property
+    def has_wifi(self) -> bool:
+        return self.__has_wifi
+
+    @property
+    def has_usb_charging(self) -> bool:
+        return self.__has_usb_charging
+
+    def get_transport_info(self) -> str:
+        wifi_info = "с Wi-Fi" if self.__has_wifi else "без Wi-Fi"
+        charging_info = "с USB-зарядкой" if self.__has_wifi else "без USB-зарядки"
+        return f"Автобус {self.model} ({self.capacity} мест) {wifi_info} {charging_info}"
+
+
+class Train(Transport):
+    def __init__(self, transport_id: str, model: str, capacity: int, car_count: int):
+        super().__init__(transport_id, model, capacity)
+        self.__car_count = car_count
+
+    @property
+    def car_count(self) -> int:
+        return self.__car_count
+
+    def get_transport_info(self) -> str:
+        return f"Поезд {self.model} ({self.__car_count} вагонов, {self.capacity} мест)"

@@ -8,3 +8,7 @@ class SeatNotAvailableException(MyException):
 
 class NoMoneyException(MyException):
     pass
+
+
+class BookingNotFoundException(Exception):
+    pass

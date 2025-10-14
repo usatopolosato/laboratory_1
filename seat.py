@@ -15,19 +15,19 @@ class Seat:
         self.__is_available = True
 
     @property
-    def number(self):
+    def number(self) -> str:
         return self.__number
 
     @property
-    def seat_class(self):
+    def seat_class(self) -> ClassSeat:
         return self.__seat_class
 
     @property
-    def price(self):
+    def price(self) -> float:
         return self.__price
 
     @property
-    def is_available(self):
+    def is_available(self) -> bool:
         return self.__is_available
 
     def reserve(self) -> None:
