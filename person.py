@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
+from services import Booking
+from typing import List
 import re
 
 
 class Person(ABC):
     EMAIL_PATTERN = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     PHONE_PATTERN = r'^[+]?[7-8][ (-]?\d{3}[) -]?\d{3}[ -]?\d{2}[ -]?\d{2}$'
-    PASSPORT_PATTERN = r'^[0-9]{4}[ ]?[0-9]{6}$'
+    PASSPORT_PATTERN = r'^[0-9]{4}[\s]?[0-9]{6}$'
     NAME_PATTERN = r'^[A-Za-zА-Яа-яЁё\s\-]+$'
 
     def __init__(self, name: str, email: str, phone: str):
@@ -84,4 +86,23 @@ class Person(ABC):
 
 
 class Passenger(Person):
-    pass
+    def __init__(self, name: str, email: str, phone: str, passport: str):
+        super().__init__(name, email, phone)
+        self.__passport = passport
+        self.__bookings: List[Booking] = []
+        self._validate_passport()
+
+    def _validate_passport(self) -> None:
+        password = re.sub(r'[\s]', '', self.__passport)
+        if not re.match(self.PASSPORT_PATTERN, self.__passport):
+            raise ValueError(
+                f"Некорректный номер паспорта: '{self.__passport}'. "
+                f"Паспорт должен содержать ровно 10 цифр"
+            )
+
+    @property
+    def passport(self) -> str:
+        return self.__passport
+
+    def get_info(self) -> str:
+        return f"Пассажир: {self.name}, Паспорт: {self.passport}"

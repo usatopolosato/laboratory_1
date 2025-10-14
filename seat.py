@@ -27,7 +27,7 @@ class Seat:
         return self.__price
 
     @property
-    def is_avaliable(self):
+    def is_available(self):
         return self.__is_available
 
     def reserve(self) -> None:
