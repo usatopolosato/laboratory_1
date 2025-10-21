@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from services import Booking
+from action import Booking
 from typing import List
 import re
 
@@ -22,10 +22,11 @@ class Person(ABC):
         self._validate_phone()
 
     def _validate_name(self) -> None:
-        if not re.match(self.NAME_PATTERN, self._name):
+        if (not re.match(self.NAME_PATTERN, self._name) or
+                not self._name.replace(' ', '').replace('-', '')):
             raise ValueError(
                 f"Некорректное имя: '{self._name}'. "
-                f"Имя должно содержать только буквы, пробелы и дефисы"
+                f"Имя должно содержать только буквы, пробелы и дефисы(как минимум 1 буква)"
             )
 
     def _validate_email(self) -> None:
@@ -93,12 +94,13 @@ class Passenger(Person):
         self._validate_passport()
 
     def _validate_passport(self) -> None:
-        password = re.sub(r'[\s]', '', self.__passport)
+        passport = re.sub(r'\s', '', self.__passport)
         if not re.match(self.PASSPORT_PATTERN, self.__passport):
             raise ValueError(
                 f"Некорректный номер паспорта: '{self.__passport}'. "
                 f"Паспорт должен содержать ровно 10 цифр"
             )
+        self.__passport = passport
 
     @property
     def passport(self) -> str:

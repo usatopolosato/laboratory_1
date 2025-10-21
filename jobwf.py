@@ -1,7 +1,8 @@
 from __future__ import annotations
 import json
 import xml.etree.ElementTree as ET
-from services import BookingSystem, Booking
+from action import Booking
+from general_system import BookingSystem
 from my_exceptions import MyException
 from xml.dom import minidom
 from typing import Dict, List, Any
@@ -53,7 +54,6 @@ class JsonWriter(DataWriter):
         return [
             {
                 'booking_id': b.booking_id,
-                'passenger_passport': b.passenger.passport,
                 'trip_id': b.trip.trip_id,
                 'seat_number': b.seat.number,
                 'status': b.status.value
@@ -108,7 +108,6 @@ class XMLWriter(DataWriter):
     def _add_booking_element(parent: ET.Element, booking: Booking) -> None:
         booking_elem = ET.SubElement(parent, 'Booking')
         ET.SubElement(booking_elem, 'BookingID').text = booking.booking_id
-        ET.SubElement(booking_elem, 'PassengerPassport').text = booking.passenger.passport
         ET.SubElement(booking_elem, 'TripID').text = booking.trip.trip_id
         ET.SubElement(booking_elem, 'SeatNumber').text = booking.seat.number
         ET.SubElement(booking_elem, 'Status').text = booking.status.value
