@@ -16,7 +16,7 @@ class Payment:
     def __init__(self, payment_id: str, amount: float, payment_method: str):
         self.__payment_id = payment_id        # Уникальный номер платежа
         self.__amount = amount                # Сумма оплаты
-        self.__payment_method = payment_method # Способ оплаты (карта, наличные)
+        self.__payment_method = payment_method  # Способ оплаты (карта, наличные)
         self.__payment_date = datetime.now()  # Дата платежа
         self.__is_paid = False                # Статус оплаты
 
@@ -63,7 +63,7 @@ class Booking:
         self.__trip = trip                    # Поездка
         self.__seat = seat                    # Выбранное место
         self.__booking_date = datetime.now()  # Дата бронирования
-        self.__status = BookingStatus.PENDING # Статус - изначально "ожидает"
+        self.__status = BookingStatus.PENDING  # Статус - изначально "ожидает"
         self.__payment: Optional[Payment] = None  # Платеж (пока нет)
 
     # Методы для получения информации

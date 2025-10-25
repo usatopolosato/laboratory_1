@@ -9,7 +9,7 @@ from my_exceptions import *
 from transports import Bus, Train, Transport
 from trip import Trip, Route
 from seat import ClassSeat, Seat
-from person import Person, Passenger
+from person import Passenger
 from action import Payment, Booking, BookingStatus
 
 
