@@ -4,7 +4,9 @@ from typing import List
 import re
 
 
+# Абстрактный класс Person - основа для всех людей в системе
 class Person(ABC):
+    # Шаблоны для проверки данных (регулярные выражения)
     EMAIL_PATTERN = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     PHONE_PATTERN = r'^[+]?[7-8][ (-]?\d{3}[) -]?\d{3}[ -]?\d{2}[ -]?\d{2}$'
     PASSPORT_PATTERN = r'^[0-9]{4}[\s]?[0-9]{6}$'
@@ -17,6 +19,7 @@ class Person(ABC):
         self._validate_contact_info()
 
     def _validate_contact_info(self) -> None:
+        # Проверяем все контактные данные
         self._validate_name()
         self._validate_email()
         self._validate_phone()
@@ -47,6 +50,7 @@ class Person(ABC):
         if normalized_phone.startswith('8') and len(normalized_phone) == 11:
             self._phone = '+7' + normalized_phone[1:]
 
+    # Свойства с проверками - при изменении тоже проверяем данные
     @property
     def name(self) -> str:
         return self._name
@@ -86,6 +90,7 @@ class Person(ABC):
         pass
 
 
+# Класс Passenger - пассажир, наследуется от Person
 class Passenger(Person):
     def __init__(self, name: str, email: str, phone: str, passport: str):
         super().__init__(name, email, phone)
@@ -94,6 +99,7 @@ class Passenger(Person):
         self._validate_passport()
 
     def _validate_passport(self) -> None:
+        # проверка корректности серии и номера паспорта
         passport = re.sub(r'\s', '', self.__passport)
         if not re.match(self.PASSPORT_PATTERN, self.__passport):
             raise ValueError(
@@ -102,6 +108,7 @@ class Passenger(Person):
             )
         self.__passport = passport
 
+    # геттеры
     @property
     def passport(self) -> str:
         return self.__passport
@@ -110,8 +117,10 @@ class Passenger(Person):
     def bookings(self) -> List[Booking]:
         return self.__bookings.copy()
 
+    # Добавляем бронирование в список пассажира
     def add_booking(self, booking: Booking) -> None:
         self.__bookings.append(booking)
 
     def get_info(self) -> str:
+        # Показываем информацию о пассажире
         return f"Пассажир: {self.name}, Паспорт: {self.passport}"

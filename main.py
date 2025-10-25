@@ -214,14 +214,7 @@ def test_file_operations(system: BookingSystem):
 
         # Чтение из JSON
         json_data = json_reader.read(json_filename)
-        print(f"Данные прочитаны из JSON файла:")
-        print(f"   Пассажиров: {len(json_data.get('passengers', []))}")
-        print(f"   Бронирований: {len(json_data.get('bookings', []))}")
-
-        # Показываем пример данных
-        if json_data.get('passengers'):
-            sample_passenger = json_data['passengers'][0]
-            print(f"   Пример пассажира: {sample_passenger['name']} ({sample_passenger['email']})")
+        print(json_data)
 
         # 2. Тестирование XML
         print("\n2. ТЕСТИРОВАНИЕ XML СЕРИАЛИЗАЦИИ")
@@ -233,14 +226,9 @@ def test_file_operations(system: BookingSystem):
         print(f"Данные записаны в XML файл: {xml_filename}")
 
         # Чтение из XML
-        xml_root = xml_reader.read(xml_filename)
+        xml_data = xml_reader.read(xml_filename)
         print(f"Данные прочитаны из XML файла")
-
-        # Парсим XML для демонстрации
-        passengers_count = len(xml_root.find('Passengers'))
-        bookings_count = len(xml_root.find('Bookings'))
-        print(f"   Пассажиров в XML: {passengers_count}")
-        print(f"   Бронирований в XML: {bookings_count}")
+        print(xml_data)
 
         # 3. Тестирование ошибок файловых операций
         print("\n3. ТЕСТИРОВАНИЕ ОШИБОК ФАЙЛОВЫХ ОПЕРАЦИЙ")
@@ -287,21 +275,21 @@ def test_file_operations(system: BookingSystem):
         compat_xml_data = serializer.load_from_xml("compat_bookings.xml")
         print("Данные загружены через методы обратной совместимости")
 
-        print(f"   JSON: {len(compat_json_data.get('passengers', []))} пассажиров")
-        print(f"   XML: {len(compat_xml_data.find('Passengers'))} пассажиров")
+        print(f"   JSON: {len(compat_json_data.passengers)} пассажиров")
+        print(f"   XML: {len(compat_xml_data.passengers)} пассажиров")
 
         # 5. Показ содержимого файлов
         print("\n5. СОДЕРЖИМОЕ ФАЙЛОВ")
         print("-" * 40)
 
-        print("JSON файл (первые 500 символов):")
+        print("JSON файл (первые 700 символов):")
         with open(json_filename, 'r', encoding='utf-8') as f:
-            content = f.read(500)
+            content = f.read(700)
             print(f"   {content}...")
 
-        print("\nXML файл (первые 500 символов):")
+        print("\nXML файл (первые 700 символов):")
         with open(xml_filename, 'r', encoding='utf-8') as f:
-            content = f.read(500)
+            content = f.read(700)
             print(f"   {content}...")
 
     except Exception as e:
@@ -415,7 +403,7 @@ def main():
             print("=" * 60)
 
             # Очистка тестовых файлов
-            # cleanup_test_files()
+            cleanup_test_files()
 
         else:
             print("\nТестирование системы бронирования завершилось с ошибками")
